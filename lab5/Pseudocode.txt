@@ -1,0 +1,14 @@
+First, Read from the initial cost and machine files so they are stored.
+
+Then create 2 threads will run the same time as the main function.
+
+In the main function, the user will provide input that allows the cost
+matrix to be updated. This updated cost matrix will be sent to other
+machines.
+
+One thread, receiveInfo, will periodically look for changes to the cost
+table and make sure the changes are storedin the cost matrix.
+
+Another thread, linkState, will periodically run the Link State
+Algorithm and find the least cost paths to each node. The implementation
+will use Djikstra's algorithm.

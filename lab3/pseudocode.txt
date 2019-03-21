@@ -1,0 +1,43 @@
+Client
+
+The client will start sending files with index 0
+
+Wait for rdt_send with data
+Create a packet with sequence 0, the data, and the data's checksum
+Send the packet over UDP.
+Wait to receive the packet.
+
+If received data is corrputed or has acknoledgement for sequence 1, resend the packet.
+
+If received data is not corrupted and has acknoledgement for sequence 0, packet is successfully received. The server can now wait for more data to be sent.
+
+After another rdt_send with data is called, make another packet.
+This packet will have sequence 1, the data, and the data's checksum
+Send the packet over UDP.
+Wait to receive the packet.
+
+If received data is corrputed or has acknoledgement for sequence 0, resend the packet.
+
+If received data is not corrupted and has acknoledgement for sequence 1, packet is successfully received. The server can now wait for more data to be sent. The server will now loop back to the beginning of this program, and have sequence 0 for the next data sent.
+
+Server
+
+The server will start by wating to receiving a packet with sequence 0.
+
+When the packet from the client is received, if it is corrupt or has sequence 1, it would send an error message as an packet.
+The packet would include the ACK for sequence 1 and the checksum. It would be delivered over UDP.
+
+If the packet from the client is received, and it is not corrupt and has sequence 0, the packet is succefully received. The server would then extract the data. It would then make a packet including the ACK for sequence 0 and the checksum. Then, this packet is sent over UDP.
+
+Now, the server is waiting for packet with sequence 1.
+
+When the packet from the client is received, if it is corrupt or has sequence 0, it would send an error message as an packet.
+The packet would include the ACK for sequence 0 and the checksum. It would be delivered over UDP.
+
+If the packet from the client is received, and it is not corrupt and has sequence 1, the packet is succefully received. The server would then extract the data. It would then make a packet including the ACK for sequence 0 and the checksum. Then, this packet is sent over UDP.
+
+
+If the packet from the server client received, and it is not corrupt and has sequence 1, the packet is succefully received. The server would then extract the data. It would then make a packet including the ACK for sequence 1 and the checksum. Then, this packet is sent over UDP.
+
+Now the server loops back to the beginning of the program to wait for packeted to be received, with sequence 0 if successful.
+

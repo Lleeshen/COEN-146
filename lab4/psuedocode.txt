@@ -1,0 +1,38 @@
+Lyman Shen
+Pseudocode Lab 4
+Computer Networks
+2/14/19
+
+This follows the rft 3.0 protocol. The implementation will include randomanization to make sure it handles errors correctly
+
+Client
+
+The client starts at sequence number 0.
+After the first call to send data, it makes the packet with the sequence number 0, the checksum, and the data.
+It sends the packet and starts the timer to wait for acknoledgement.
+If the received packet is corrupt or has the wrong ACK sequence number, send the packet agains and acknoledge there is a loss of data.
+If the timer times out, send the packet and start the timer again. Acknoledge that there is a loss of data.
+If the received packet is not corrupt and has the right ACK sequence number, the data is successfully transmitted.
+
+The next message the client sends is at sequence number 1.
+After the first call to send data, it makes the packet with the sequence number 1, the checksum, and the data.
+It sends the packet and starts the timer to wait for acknoledgement.
+If the received packet is corrupt or has the wrong ACK sequence number, send the packet again and acknoledge there is a loss of data.
+If the timer times out, send the packet and start the timer again. Acknoledge that there is a loss of data.
+If the received packet is not corrupt and has the right ACK sequence number, the data is successfully transmitted.
+
+The program loops back to the beginning, with the next sequence number being 0
+
+Server
+
+The server starts at sequence number 0.
+
+It waits to receive a packet.
+If its data is corrupt or has sequence number 1, it sends the sequence number 1 back as a packet as a NAK.
+If the data is not corrupt and has the right sequence number, it extracts the data and sends back a good ACK with sequence number 0. 
+
+It now waits to receive a packet with sequence number 1
+If its data is corrupt or has sequence number 0, it sends the sequence number 0 back as a packet as a NAK.
+If the data is not corrupt and has the right sequence number, it extracts the data and sends back a good ACK with sequence number 0. 
+
+The server now loops back to receive a packet with sequence number 0 again.
